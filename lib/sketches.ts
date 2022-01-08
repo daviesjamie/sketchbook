@@ -1,6 +1,7 @@
 import fs from "fs";
 import { join } from "path";
 import Sketch from "types/Sketch";
+import SketchMetadata from "types/SketchMetadata";
 
 const sketchDirectory = join(process.cwd(), "sketches");
 
@@ -10,20 +11,22 @@ export function getAllSketchSlugs(): string[] {
     .map((filename) => filename.replace(/\.tsx/, ""));
 }
 
-export async function getSketchByFilename(slug: string): Promise<Sketch> {
-  const sketch = await import(`sketches/${slug}`)
+export async function getSketchBySlug(slug: string): Promise<Sketch> {
+  const sketch: SketchMetadata = await import(`sketches/${slug}`)
     .then((module) => module.metadata)
     .catch(() => null);
 
-  return sketch;
+  return {
+    slug,
+    ...sketch,
+  };
 }
 
 export async function getAllSketches(): Promise<Sketch[]> {
-  const filenames = getAllSketchSlugs();
-  const sketches = filenames.map(async (filename: string) =>
-    getSketchByFilename(filename)
-  );
+  const slugs = getAllSketchSlugs();
+  const sketches = slugs.map(async (slug: string) => getSketchBySlug(slug));
+
   return await Promise.all(sketches).then((sketches) =>
-    sketches.sort((sketch1, sketch2) => (sketch1.date > sketch2.date ? -1 : 1))
+    sketches.sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
   );
 }

@@ -1,7 +1,7 @@
-interface Sketch {
+import SketchMetadata from "./SketchMetadata";
+
+interface Sketch extends SketchMetadata {
   slug: string;
-  title: string;
-  date: string;
 }
 
 export default Sketch;

@@ -1,9 +1,12 @@
-import Sketch from "../types/Sketch";
+import SketchMetadata from "../types/SketchMetadata";
 
-const metadata: Sketch = {
-  slug: "001",
+const Sketch = () => <h1>Sketch</h1>;
+
+export default Sketch;
+
+const metadata: SketchMetadata = {
   title: "10 print",
-  date: "08/01/2022",
+  date: "2022-01-08",
 };
 
 export { metadata };
