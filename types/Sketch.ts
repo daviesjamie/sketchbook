@@ -1,7 +1,7 @@
 interface Sketch {
-  slug: string
-  title: string
-  date: string
+  slug: string;
+  title: string;
+  date: string;
 }
 
-export default Sketch
+export default Sketch;
