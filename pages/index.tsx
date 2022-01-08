@@ -13,7 +13,9 @@ const Home: NextPage<Props> = ({ sketches }: Props) => {
       <ul>
         {sketches.map((sketch) => (
           <li key={sketch.slug}>
-            {sketch.slug} | {sketch.title} | {sketch.date}
+            <a href={`/${sketch.slug}`}>
+              {sketch.slug} | {sketch.title} | {sketch.date}
+            </a>
           </li>
         ))}
       </ul>
