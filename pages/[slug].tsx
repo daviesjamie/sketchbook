@@ -1,3 +1,4 @@
+import { ErrorBoundary } from "components/ErrorBoundary";
 import { getAllSketchSlugs } from "lib/sketches";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
@@ -23,9 +24,11 @@ const SketchPage = ({ slug, title }: Props) => {
       </Head>
 
       {hasMounted && (
-        <Suspense fallback={"Loading"}>
-          <Sketch />
-        </Suspense>
+        <ErrorBoundary fallback={"Error"}>
+          <Suspense fallback={"Loading"}>
+            <Sketch />
+          </Suspense>
+        </ErrorBoundary>
       )}
     </>
   );
