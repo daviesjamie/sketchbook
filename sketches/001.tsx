@@ -1,40 +1,31 @@
-import { useEffect, useRef } from "react";
+import Canvas2DRenderer from "components/renderers/Canvas2DRenderer";
 import SketchMetadata from "../types/SketchMetadata";
 
 const Sketch = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
-
-    if (!canvas || !context) {
-      return;
-    }
-
+  const draw = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
     const size = 320;
     const dpr = window.devicePixelRatio;
     const step = 20;
 
     canvas.width = size * dpr;
     canvas.height = size * dpr;
-    context.scale(dpr, dpr);
+    ctx.scale(dpr, dpr);
 
-    context.lineCap = "square";
-    context.lineWidth = 2;
+    ctx.lineCap = "square";
+    ctx.lineWidth = 2;
 
     const draw = (x: number, y: number, width: number, height: number) => {
       const leftToRight = Math.random() >= 0.5;
 
       if (leftToRight) {
-        context.moveTo(x, y);
-        context.lineTo(x + width, y + height);
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + width, y + height);
       } else {
-        context.moveTo(x + width, y);
-        context.lineTo(x, y + height);
+        ctx.moveTo(x + width, y);
+        ctx.lineTo(x, y + height);
       }
 
-      context.stroke();
+      ctx.stroke();
     };
 
     for (let x = 0; x < size; x += step) {
@@ -42,9 +33,9 @@ const Sketch = () => {
         draw(x, y, step, step);
       }
     }
-  });
+  };
 
-  return <canvas ref={canvasRef} />;
+  return <Canvas2DRenderer sketch={draw} />;
 };
 
 export default Sketch;
