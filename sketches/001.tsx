@@ -1,8 +1,10 @@
-import Canvas2DRenderer from "components/renderers/Canvas2DRenderer";
+import Canvas2DRenderer, {
+  Canvas2DSetupProps,
+} from "components/renderers/Canvas2DRenderer";
 import SketchMetadata from "types/SketchMetadata";
 
 const Sketch = () => {
-  const setup = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
+  const setup = ({ canvas, ctx }: Canvas2DSetupProps) => {
     const size = 320;
     const dpr = window.devicePixelRatio;
     const step = 20;

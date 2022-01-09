@@ -1,10 +1,15 @@
 import { useEffect, useRef } from "react";
 
-interface Props {
-  setup: (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => void;
+export interface Canvas2DSetupProps {
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
 }
 
-const Canvas2DRenderer = ({ setup }: Props) => {
+interface Canvas2DRendererProps {
+  setup: (props: Canvas2DSetupProps) => void;
+}
+
+const Canvas2DRenderer = ({ setup }: Canvas2DRendererProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -15,7 +20,7 @@ const Canvas2DRenderer = ({ setup }: Props) => {
       return;
     }
 
-    setup(canvas, ctx);
+    setup({ canvas, ctx });
   });
 
   return <canvas ref={canvasRef} />;
