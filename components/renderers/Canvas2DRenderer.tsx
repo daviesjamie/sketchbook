@@ -44,6 +44,8 @@ const Canvas2DRenderer = ({ dimensions, setup }: Canvas2DRendererProps) => {
     }
 
     fixCanvasPixelRatio(canvas, ctx);
+
+    ctx.clearRect(0, 0, width, height);
     setup({ canvas, ctx, height, width });
   });
 
