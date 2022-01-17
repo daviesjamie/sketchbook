@@ -4,11 +4,18 @@ import Canvas2DRenderer, {
 import SketchMetadata from "types/SketchMetadata";
 
 const Sketch = () => {
+  const bgColour = "rgb(24, 24, 27)";
+  const fgColour = "rgb(228, 228, 231)";
+
   const setup = ({ canvas, ctx, width, height }: Canvas2DSetupProps) => {
+    ctx.fillStyle = bgColour;
+    ctx.fillRect(0, 0, width, height);
+
     const step = 20;
 
     ctx.lineCap = "square";
     ctx.lineWidth = 2;
+    ctx.strokeStyle = fgColour;
 
     const drawLine = (x: number, y: number, width: number, height: number) => {
       const leftToRight = Math.random() >= 0.5;
