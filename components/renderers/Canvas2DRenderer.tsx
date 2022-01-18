@@ -1,10 +1,13 @@
 import { useEffect, useRef } from "react";
+import { Pane } from "tweakpane";
+
 import fixCanvasPixelRatio from "lib/fixCanvasPixelRatio";
 
 export interface Canvas2DSetupProps {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   height: number;
+  panel: Pane;
   width: number;
 }
 
@@ -25,10 +28,12 @@ const Canvas2DRenderer = ({ dimensions, setup }: Canvas2DRendererProps) => {
       return;
     }
 
-    fixCanvasPixelRatio(canvas, ctx);
+    const panel = new Pane({ title: "Parameters" });
 
+    fixCanvasPixelRatio(canvas, ctx);
     ctx.clearRect(0, 0, width, height);
-    setup({ canvas, ctx, height, width });
+
+    setup({ canvas, ctx, height, panel, width });
   });
 
   return <canvas ref={canvasRef} width={width} height={height} />;
