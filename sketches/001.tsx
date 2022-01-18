@@ -9,16 +9,26 @@ const Sketch = () => {
     bgColour: "rgb(24, 24, 27)",
     fgColour: "rgb(113, 113, 122)",
     step: 30,
+    leftRightBias: 0.5,
   };
 
   const paneSetup = ({ pane }: PaneSetupProps) => {
     pane.addInput(params, "bgColour", { label: "bg colour" });
     pane.addInput(params, "fgColour", { label: "fg colour" });
+
     pane.addInput(params, "step", {
+      label: "grid size",
       min: 5,
       max: 100,
       step: 5,
-      label: "grid size",
+    });
+
+    pane.addInput(params, "leftRightBias", {
+      label: "left/right bias",
+      min: 0,
+      max: 1,
+      step: 0.01,
+      format: (v: number) => `${v * 100}%`,
     });
   };
 
@@ -31,7 +41,7 @@ const Sketch = () => {
     ctx.strokeStyle = params.fgColour;
 
     const drawLine = (x: number, y: number, width: number, height: number) => {
-      const leftToRight = Math.random() >= 0.5;
+      const leftToRight = Math.random() >= params.leftRightBias;
 
       if (leftToRight) {
         ctx.moveTo(x, y);
