@@ -7,16 +7,24 @@ export interface Canvas2DSetupProps {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   height: number;
-  panel: Pane;
   width: number;
+}
+
+export interface PaneSetupProps {
+  pane: Pane;
 }
 
 interface Canvas2DRendererProps {
   dimensions?: [number, number];
+  paneSetup: (props: PaneSetupProps) => void;
   setup: (props: Canvas2DSetupProps) => void;
 }
 
-const Canvas2DRenderer = ({ dimensions, setup }: Canvas2DRendererProps) => {
+const Canvas2DRenderer = ({
+  dimensions,
+  paneSetup,
+  setup,
+}: Canvas2DRendererProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [width, height] = dimensions ?? [window.innerWidth, window.innerHeight];
 
@@ -28,12 +36,20 @@ const Canvas2DRenderer = ({ dimensions, setup }: Canvas2DRendererProps) => {
       return;
     }
 
-    const panel = new Pane({ title: "Parameters" });
+    const draw = () => {
+      fixCanvasPixelRatio(canvas, ctx);
+      ctx.clearRect(0, 0, width, height);
 
-    fixCanvasPixelRatio(canvas, ctx);
-    ctx.clearRect(0, 0, width, height);
+      setup({ canvas, ctx, height, width });
+    };
 
-    setup({ canvas, ctx, height, panel, width });
+    draw();
+
+    const pane = new Pane({ title: "Parameters" });
+    paneSetup({ pane });
+
+    const redrawBtn = pane.addButton({ title: "Redraw" });
+    redrawBtn.on("click", draw);
   });
 
   return <canvas ref={canvasRef} width={width} height={height} />;

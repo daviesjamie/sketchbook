@@ -1,25 +1,28 @@
 import Canvas2DRenderer, {
   Canvas2DSetupProps,
+  PaneSetupProps,
 } from "components/renderers/Canvas2DRenderer";
 import SketchMetadata from "types/SketchMetadata";
 
 const Sketch = () => {
   const params = {
     bgColour: "rgb(24, 24, 27)",
-    fgColour: "rgb(228, 228, 231)",
-    step: 20,
+    fgColour: "rgb(113, 113, 122)",
+    step: 30,
   };
 
-  const setup = ({ ctx, width, panel, height }: Canvas2DSetupProps) => {
-    panel.addInput(params, "bgColour", { label: "bg colour" });
-    panel.addInput(params, "fgColour", { label: "fg colour" });
-    panel.addInput(params, "step", {
+  const paneSetup = ({ pane }: PaneSetupProps) => {
+    pane.addInput(params, "bgColour", { label: "bg colour" });
+    pane.addInput(params, "fgColour", { label: "fg colour" });
+    pane.addInput(params, "step", {
       min: 5,
       max: 100,
       step: 5,
       label: "grid size",
     });
+  };
 
+  const setup = ({ ctx, width, height }: Canvas2DSetupProps) => {
     ctx.fillStyle = params.bgColour;
     ctx.fillRect(0, 0, width, height);
 
@@ -48,7 +51,7 @@ const Sketch = () => {
     }
   };
 
-  return <Canvas2DRenderer setup={setup} />;
+  return <Canvas2DRenderer paneSetup={paneSetup} setup={setup} />;
 };
 
 export default Sketch;
